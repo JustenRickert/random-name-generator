@@ -7,10 +7,12 @@ export const range = n =>
 
 const pairs = xs => xs.slice(1).map((_, i) => [xs[i], xs[i + 1]]);
 
-const normalizedProbabilityRanges = probabilities => {};
-
 export const sample = xs => xs[Math.floor(Math.random() * xs.length)];
 
+/**
+ * default value weight is 1, override weight in `weightMap`. Weight `2` value
+ * in `weightMap` is 2x more likely than 1, etc.
+ */
 export const randomWeighted = (xs, weightMap = {}) => {
   const probabilities = xs.map(value => ({
     value,
@@ -39,12 +41,17 @@ export const randomWeighted = (xs, weightMap = {}) => {
 export const randomBetween = ([low, high]) =>
   Math.floor((high - low) * Math.random() + low);
 
+/**
+ * @returns number [1, 100] weighted towards 1
+ */
 export const logRandomMax100 = () => {
   const maxN = 100;
   const n = 1.1;
   const t = n ** maxN;
   return Math.floor(1 + maxN - Math.log(1 + Math.random() * t) / Math.log(n));
 };
+
+// FOR TESTING, mostly
 
 const bucket = (xs, idFn) =>
   xs.reduce(
